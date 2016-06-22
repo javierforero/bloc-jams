@@ -15,11 +15,11 @@ body {
     min-height: 100%;
 }
 
+
 .container {
     margin: 0 auto;
     max-width: 64rem;
 }
-
 @media (min-width: 640px){
     html {font-size: 112%;}
     
