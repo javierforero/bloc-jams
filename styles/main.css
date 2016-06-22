@@ -15,6 +15,16 @@ body {
     min-height: 100%;
 }
 
+.clearfix::before,
+.clearfix::after {
+    content: " ";
+    display: table;
+}
+
+.clearfix::after {
+    clear: both;
+}
+
 
 .container {
     margin: 0 auto;
