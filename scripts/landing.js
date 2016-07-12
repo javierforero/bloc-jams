@@ -1,7 +1,7 @@
-var animatePoints = function() {
+var pointsArray = document.getElementsByClassName('point');
+
+var animatePoints = function(points) {
     
-    var points = document.getElementsByClassName('point');
-            
     var revealPoint = function(indexPoint) {
         
         points[indexPoint].style.opacity = 1;
@@ -14,6 +14,23 @@ var animatePoints = function() {
     for(var i = 0; i < points.length; i++) {
         revealPoint(i);
     }
+};
+
+window.onload = function() {
+    
+    if (window.innerHeight > 950) {
+        animatePoints(pointsArray);
+    }
+    var sellingPoints = document.getElementsByClassName('selling-points')[0];
+    
+    window.addEventListener('scroll', function(event){
+        
+      var scrollDistance = sellingPoints.getBoundingClientRect().top - window.innerHeight + 200;  
+        
+      if(document.body.scrollTop || documentElement.scrollTop >= scrollDistance){
+        animatePoints(pointsArray);
+      }    
+    });
 };
           
            
