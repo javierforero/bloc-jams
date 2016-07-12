@@ -11,9 +11,7 @@ var animatePoints = function(points) {
                 
     };
     
-    for(var i = 0; i < points.length; i++) {
-        revealPoint(i);
-    }
+    forEach(pointsArray, revealPoint);
 };
 
 window.onload = function() {
@@ -25,8 +23,7 @@ window.onload = function() {
     
     window.addEventListener('scroll', function(event){
         
-      var scrollDistance = sellingPoints.getBoundingClientRect().top - window.innerHeight + 200;  
-        
+      var scrollDistance = sellingPoints.getBoundingClientRect().top - window.innerHeight + 200;   
       if(document.body.scrollTop || documentElement.scrollTop >= scrollDistance){
         animatePoints(pointsArray);
       }    
