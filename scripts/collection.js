@@ -19,7 +19,7 @@ window.onload = function() {
     
     collectionContainer.innerHTML = '';
     
-    for (var i = 0; i < 12; i++) {
+    for (var i = 0; i < 24; i++) {
         collectionContainer.innerHTML += collectionItemTemplate;
     }
 };
