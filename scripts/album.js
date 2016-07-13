@@ -28,6 +28,22 @@
      ]
  };
 
+ var albumJohn = {
+     title: 'Mind Games',
+     artist: 'John Lennon',
+     label: 'Apple Records',
+     year: '1973',
+     albumArtUrl: 'assets/images/album_covers/22.jpg',
+     songs: [
+         {  title: 'Mind Games', duration:'4:14'},
+         {  title: 'Tight A$', duration:'3:37'},
+         {  title: 'Aisumasen(I\'m sorry)', duration:'4:44'},
+         {  title: 'One Day (at a time)', duration:'3:09'},
+         {  title: 'Bring On Lucie (Freda People)', duration:'4:14'},
+         {  title: 'Nutopian International Anthem', duration:'0:04'}
+     ]
+ };
+
   var createSongRow = function(songNumber, songName, songLength) {
       
       var template = 
@@ -50,7 +66,7 @@ var setCurrentAlbum = function(album) {
     
     albumTitle.firstChild.nodeValue = album.title;
     albumArtist.firstChild.nodeValue = album.artist;
-    albumReleaseInfo.firstChild.nodeValue = album.year + '' + album.label;
+    albumReleaseInfo.firstChild.nodeValue = album.year + ' ' + album.label;
     albumImage.setAttribute('src', album.albumArtUrl);
     
     albumSongList.innerHTML = '';
@@ -60,6 +76,19 @@ var setCurrentAlbum = function(album) {
     }
 };
 
+var albumsArray = [albumPicasso, albumMarconi, albumJohn];
+
+var nextAlbum = function(){
+    
+}
+
 window.onload = function() {
-  setCurrentAlbum(albumPicasso);        
+    
+    var index = 0;
+    setCurrentAlbum(albumPicasso);
+    
+    document.getElementsByClassName('album-cover-art')[0].addEventListener('click', function(){
+        index++;
+        setCurrentAlbum(albumsArray[index%albumsArray.length]);
+    });
 };
