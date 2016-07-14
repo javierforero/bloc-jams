@@ -60,6 +60,14 @@ var setCurrentAlbum = function(album) {
     }
 };
 
+var songListContainer = document.getElementsByClassName('album-view-song-list')[0];
+
+var playButtonTemplare = '<a class="album-song-button"><span class="ion-play"></span></a>';
+
 window.onload = function() {
-  setCurrentAlbum(albumPicasso);        
+  setCurrentAlbum(albumPicasso);
+  
+  songListContainer.addEventListener('mouseover', function(event) {
+      console.log(event.target);
+  });    
 };
