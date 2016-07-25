@@ -25,12 +25,14 @@ var createSongRow = function(songNumber, songName, songLength) {
             $(this).html(playButtonTemplate);
             currentlyPlayingSongNumber = null;
             currentSongFromAlbum = null;
+            $('.main-controls .play-pause').html(playerBarPlayButton);
             
         } else if(currentlyPlayingSongNumber !== songNumber) {
             
             $(this).html(pauseButtonTemplate);
             currentlyPlayingSongNumber = songNumber;
             currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
+            updatePlayerBarSong();
 
         }          
           
@@ -86,9 +88,73 @@ var setCurrentAlbum = function(album) {
     }
 };
 
+var updatePlayerBarSong = function(){
+    
+    $('.currently-playing .song-name').text(currentSongFromAlbum.title);
+    $('.currently-playing .artist-name').text(currentAlbum.artist);
+    $('.currently-playing .artist-song-mobile').text(currentSongFromAlbum.title + ' - ' + currentAlbum.artist);
+    $('.main-controls .play-pause').html(playerBarPauseButton);
+};
+
+var trackIndex = function(album, song) {
+    
+    return album.songs.indexOf(song);
+};
+
+var nextSong = function() {
+    
+     var newIndex = trackIndex(currentAlbum, currentSongFromAlbum)+1;
+     var prevSong = currentSongFromAlbum;
+     var prevSongNumber = currentlyPlayingSongNumber;
+
+     if(newIndex < currentAlbum.songs.length) {
+         
+        currentSongFromAlbum = currentAlbum.songs[newIndex];
+        currentlyPlayingSongNumber = trackIndex(currentAlbum, currentSongFromAlbum)+1; 
+        updatePlayerBarSong();
+        $('.song-item-number[data-song-number="'+prevSongNumber+'"]').html(prevSongNumber);
+        $('.song-item-number[data-song-number="'+currentlyPlayingSongNumber+'"]').html(playButtonTemplate); 
+         
+     } else {
+         
+         currentSongFromAlbum = currentAlbum.songs[0];
+         currentlyPlayingSongNumber = trackIndex(currentAlbum, currentSongFromAlbum)+1; 
+         updatePlayerBarSong();
+         $('.song-item-number[data-song-number="'+prevSongNumber+'"]').html(prevSongNumber);
+         $('.song-item-number[data-song-number="'+currentlyPlayingSongNumber+'"]').html(playButtonTemplate); 
+     }
+};
+
+var prevSong = function() {
+    
+     var newIndex = trackIndex(currentAlbum, currentSongFromAlbum);
+     var nextSong = currentSongFromAlbum;
+     var nextSongNumber = currentlyPlayingSongNumber;
+
+     if(newIndex >= 0) {
+         
+        currentSongFromAlbum = currentAlbum.songs[newIndex-1];
+        currentlyPlayingSongNumber = trackIndex(currentAlbum, currentSongFromAlbum)-1; 
+        updatePlayerBarSong();
+        $('.song-item-number[data-song-number="'+nextSongNumber+'"]').html(nextSongNumber);
+        $('.song-item-number[data-song-number="'+currentlyPlayingSongNumber+'"]').html(playButtonTemplate); 
+         
+     } else {
+         
+         currentSongFromAlbum = currentAlbum.songs[currentAlbum.songs.length-1];
+         currentlyPlayingSongNumber = currentAlbum.songs.length-1; 
+         updatePlayerBarSong();
+         $('.song-item-number[data-song-number="'+nextSongNumber+'"]').html(nextSongNumber);
+         $('.song-item-number[data-song-number="'+currentlyPlayingSongNumber+'"]').html(playButtonTemplate); 
+     }
+};  
+
 
 var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
 var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause"></span></a>';
+var playerBarPlayButton = '<span class="ion-play"></span>';
+var playerBarPauseButton = '<span class="ion-pause"></span>';
+
 var currentlyPlayingSongNumber = null;
 var currentSongFromAlbum = null;
 var currentAlbum = null;
@@ -96,7 +162,13 @@ var currentAlbum = null;
 $(document).ready(function() {
     
   setCurrentAlbum(albumPicasso);
-  
+  $('a.next').click(function(){
+     nextSong();
+  });
+    
+  $('a.previous').click(function(){
+     prevSong();
+  });    
 });
 
 
