@@ -98,11 +98,12 @@ var setCurrentAlbum = function(album) {
 };
 
 var updatePlayerBarSong = function(){
-    
+    var $playBarLogic = currentSoundFile.isPaused() ? playerBarPlayButton : playerBarPauseButton;
+        
     $('.currently-playing .song-name').text(currentSongFromAlbum.title);
     $('.currently-playing .artist-name').text(currentAlbum.artist);
     $('.currently-playing .artist-song-mobile').text(currentSongFromAlbum.title + ' - ' + currentAlbum.artist);
-    $('.main-controls .play-pause').html(playerBarPauseButton);
+    $('.main-controls .play-pause').html($playBarLogic);
 };
 
 var trackIndex = function(album, song) {
@@ -186,7 +187,29 @@ var previousSong = function() {
          getSongNumberCell(nextSongNumber).html(nextSongNumber);
          getSongNumberCell(currentlyPlayingSongNumber).html(pauseButtonTemplate); 
      }
-};  
+};
+
+var togglePlayFromPlayerBar = function() {
+    
+    if(currentSoundFile == null) {
+        setSong(1);
+        getSongNumberCell(currentlyPlayingSongNumber).html(pauseButtonTemplate); 
+        updatePlayerBarSong();
+        currentSoundFile.play();
+        
+    } else if(currentSoundFile.isPaused()) {
+        
+        getSongNumberCell(currentlyPlayingSongNumber).html(pauseButtonTemplate); 
+        $barPlayButton.html(playerBarPauseButton);
+        currentSoundFile.play();
+        
+    } else {
+        
+      getSongNumberCell(currentlyPlayingSongNumber).html(playButtonTemplate); 
+      $barPlayButton.html(playerBarPlayButton);   
+      currentSoundFile.pause();    
+    }
+};
 
 
 
@@ -202,12 +225,14 @@ var currentSoundFile = null;
 var currentVolume = 80;
 var $previousButton = $('.main-controls .previous');
 var $nextButton = $('.main-controls .next');
+var $barPlayButton = $('.main-controls .play-pause');
 
 $(document).ready(function() {
-    
+      
   setCurrentAlbum(albumPicasso);
   $previousButton.click(previousSong);
-  $nextButton.click(nextSong);   
+  $nextButton.click(nextSong);
+  $barPlayButton.click(togglePlayFromPlayerBar);
 });
 
 
