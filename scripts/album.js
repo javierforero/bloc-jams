@@ -128,7 +128,7 @@ var setSong = function(songNumber) {
     setVolume(currentVolume);
 };
 
-var setVolume(volume) {
+var setVolume= function(volume) {
   if(currentSoundFile) {
       currentSoundFile.setVolume(volume);
   }  
